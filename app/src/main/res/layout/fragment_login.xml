@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jordan.ukelectionsapp.MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ni_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="National Inusrance (NI) Number:" />
+
+    <EditText
+        android:id="@+id/ni_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/ni_label"
+        android:hint="AA 1234 56789" />
+
+    <TextView
+        android:id="@+id/password_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Password" />
+
+    <EditText
+        android:id="@+id/password_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/ni_label"
+        android:inputType = "textPassword" />
+
+    <EditText
+        android:id="@+id/show_ni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/ni_label" />
+
+    <Button
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password_field"
+        android:layout_alignParentRight="true"
+        android:text="Submit" />
+
+</LinearLayout>
