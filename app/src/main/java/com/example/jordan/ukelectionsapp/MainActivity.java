@@ -29,113 +29,52 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity implements FlipFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements ScannerFragment.OnFragmentInteractionListener {
 
 
     private TextView txtView;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView myImageView;
-    private Bitmap myBitmap;
+    private ScannedResult scannedResult;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_scanner);
+        Log.d("emptyView" , "activity on create");
 
-        Button btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
+        setContentView(R.layout.content_main);
+        Log.d("emptyView" , "content view made");
 
-        myImageView = (ImageView) findViewById(R.id.imgview);
-        myBitmap = BitmapFactory.decodeResource(
-                getApplicationContext().getResources(),
-                R.drawable.puppy);
-        myImageView.setImageBitmap(myBitmap);
-//
-//        BarcodeDetector detector =
-//                new BarcodeDetector.Builder(getApplicationContext())
-//                        .setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE)
-//                        .build();
-//        if(!detector.isOperational()){
-//            txtView.setText("Could not set up the detector!");
-//            return;
-//        }
-//
-///*        Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
-//        SparseArray<Barcode> barcodes = detector.detect(frame);
-//
-//        Barcode thisCode = barcodes.valueAt(0);
-//        TextView txtView = (TextView) findViewById(R.id.txtContent);
-//        txtView.setText(thisCode.rawValue);*/
+        // Create a new Fragment to be placed in the activity layout
+        ScannerFragment firstFragment = new ScannerFragment();
+        Log.d("emptyView" , "First Fragment (Scanner Fragemt) made");
+
+
+        // In case this activity was started with special instructions from an
+        // Intent, pass the Intent's extras to the fragment as arguments
+
+        firstFragment.setArguments(getIntent().getExtras());
+        Log.d("emptyView" , "set arguments");
+
+
+        // Add the fragment to the 'fragment_container' FrameLayout
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, firstFragment).commit();
+        Log.d("emptyView" , "commited");
 
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            myBitmap = (Bitmap) extras.get("data");
-            myBitmap = myBitmap.copy(Bitmap.Config.ARGB_8888,true);
-            myImageView.setImageBitmap(myBitmap);
-            Log.d("QR Result", "Pre Function Call ");
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
 
-            scanForQr();
-        }
-    }
-
-    public void scanForQr() {
-        Log.d("QR Result", "Function Called ");
-
-        BarcodeDetector detector =
-                new BarcodeDetector.Builder(getApplicationContext())
-                        .setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE)
-                        .build();
-        if(!detector.isOperational()){
-            txtView.setText("Could not set up the detector!");
-            return;
-        }
-        Log.d("QR Result", "Detector Created ");
-        Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
-        Log.d("QR Result", "Frame Created ");
-
-
-        SparseArray<Barcode> barcodes = detector.detect(frame);
-        Log.d("QR Result", String.valueOf(barcodes.size()));
-
-        if(barcodes.size() == 1) {
-            //TODO: Error Seems to be here
-
-            Barcode thisCode = barcodes.valueAt(0);
-
-            Log.d("QR Result", "Barcode local variable created ");
-
-            TextView txtView = (TextView) findViewById(R.id.txtContent);
-
-            Log.d("QR Result", "Textview created ");
-
-            txtView.setText(thisCode.rawValue);
-            Log.d("QR Result", "TextView Assigned ");
-        }
-        else {
-            //Code Here
-        }
-
-
+        super.onActivityResult(requestCode,resultCode,data);
 
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) { }
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

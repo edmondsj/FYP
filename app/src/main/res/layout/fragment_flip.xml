@@ -12,4 +12,8 @@
         android:text="@string/flip_message"
         android:gravity="center"
         android:background="#f0f0f0"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </FrameLayout>
