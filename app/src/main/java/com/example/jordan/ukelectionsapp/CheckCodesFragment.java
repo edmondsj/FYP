@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 /**
@@ -26,6 +29,8 @@ public class CheckCodesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ScannedResult codeObject;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +69,32 @@ public class CheckCodesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_check_codes, container, false);
+        View view = inflater.inflate(R.layout.fragment_check_codes, container, false);
+
+        codeObject = ScannedResult.getInstance();
+        String[] candidateCodes = codeObject.getCandidateCodes();
+
+
+        LinearLayout linearLayout = view.findViewById(R.id.check_codes_layout);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        for( int i = 0; i < codeObject.getCandidateCodes().length; i++ )
+        {
+            LinearLayout innerLayout = new LinearLayout(getActivity().getApplicationContext());
+            innerLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            TextView labelView = new TextView(getContext());
+            labelView.setText("Candidate " + ( i + 1 ) + ":");
+            innerLayout.addView(labelView);
+
+            TextView codeView = new TextView(getContext());
+            codeView.setText(candidateCodes[i]);
+            innerLayout.addView(codeView);
+
+            linearLayout.addView(innerLayout);
+        }
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

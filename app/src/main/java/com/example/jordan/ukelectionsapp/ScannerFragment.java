@@ -158,18 +158,21 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
             txtView.setText(thisCode.rawValue);
 
             //Create Scanned Results Object, this will be used to input the candidate codes
-            scannedResult = new ScannedResult(thisCode.rawValue);
+            scannedResult = ScannedResult.getInstance();
+            scannedResult.create(thisCode.rawValue);
 
             // Create fragment and give it an argument specifying the article it should show
             CheckCodesFragment newFragment = new CheckCodesFragment();
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            Bundle args = new Bundle();
 
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack so the user can navigate back
             transaction.replace(R.id.fragment_container, newFragment);
             transaction.addToBackStack(null);
 
-            // Commit the transaction
+// Commit the transaction
             transaction.commit();
 
         }

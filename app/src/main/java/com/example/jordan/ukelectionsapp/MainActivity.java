@@ -2,6 +2,7 @@ package com.example.jordan.ukelectionsapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,7 +31,8 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity implements ScannerFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements ScannerFragment.OnFragmentInteractionListener
+                            , CheckCodesFragment.OnFragmentInteractionListener, FlipFragment.OnFragmentInteractionListener{
 
 
     private TextView txtView;
@@ -41,27 +44,37 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("emptyView" , "activity on create");
-
         setContentView(R.layout.content_main);
-        Log.d("emptyView" , "content view made");
 
-        // Create a new Fragment to be placed in the activity layout
-        ScannerFragment firstFragment = new ScannerFragment();
-        Log.d("emptyView" , "First Fragment (Scanner Fragemt) made");
+        //Android Provided Tool to prevent screen capture
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
-
-        // In case this activity was started with special instructions from an
-        // Intent, pass the Intent's extras to the fragment as arguments
-
-        firstFragment.setArguments(getIntent().getExtras());
-        Log.d("emptyView" , "set arguments");
+        //Prevent Screen Rotation
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
-        // Add the fragment to the 'fragment_container' FrameLayout
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, firstFragment).commit();
-        Log.d("emptyView" , "commited");
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.fragment_container) != null) {
 
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Create a new Fragment to be placed in the activity layout
+            FlipFragment firstFragment = new FlipFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            firstFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, firstFragment).commit();
+        }
     }
 
 

@@ -5,9 +5,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +23,7 @@ import android.widget.TextView;
  * Use the {@link FlipFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FlipFragment extends Fragment {
+public class FlipFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +32,8 @@ public class FlipFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    Button btn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,7 +72,12 @@ public class FlipFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_flip, container, false);
+        View view = inflater.inflate(R.layout.fragment_flip, container, false);
+
+        btn = (Button) view.findViewById(R.id.scanner_btn);
+        btn.setOnClickListener(this);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,6 +102,31 @@ public class FlipFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.scanner_btn:
+// Create fragment and give it an argument specifying the article it should show
+                ScannerFragment newFragment = new ScannerFragment();
+                Bundle args = new Bundle();
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+
+// Commit the transaction
+                transaction.commit();
+                break;
+
+            default:
+                Log.d("hello", "ll");
+        }
     }
 
     /**

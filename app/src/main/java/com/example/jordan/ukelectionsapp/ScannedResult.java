@@ -10,27 +10,33 @@ import java.sql.Array;
  */
 
 public class ScannedResult {
-    private String fullCode;
+    private static String fullCode;
     private int numCandidates;
     private String[] splitCode;
     private String correctSourceCode;
 
-    public ScannedResult(String fullCode) {
-        this.fullCode = fullCode;
+    private static ScannedResult instance;
+
+
+    private ScannedResult() {
         correctSourceCode = "UKVOTINGV1";
-
-        this.splitCode = splitCode();
-
-        fromCorrectSource();
     }
 
-    public void setNumCandidates(int numCandidates) {
-
-        if(splitCode != null) {
-            //Do Nothing
+    public static ScannedResult getInstance(){
+        if (instance == null){ //if there is no instance available... create new one
+            instance = new ScannedResult();
         }
-        numCandidates = splitCode.length;
+
+        return instance;
     }
+
+    public void create(String code) {
+        this.fullCode = code;
+        this.splitCode = splitCode();
+        fromCorrectSource();
+
+    }
+
     public int getNumCandidates() {
         numCandidates = fullCode.length() - 1; // 1 subtracted to account for source check
         Log.d("Code Check", "Number of Candidates:" + numCandidates);
@@ -39,7 +45,12 @@ public class ScannedResult {
     }
 
     public String[] getCandidateCodes() {
-        return splitCode;
+       String[] candidateCodes = new String[splitCode.length - 1];
+       Log.d("hellloooo", "" + splitCode.length);
+        for (int x = 1; x < splitCode.length; x++) {
+            candidateCodes[x - 1] = splitCode[x];
+        }
+        return candidateCodes;
     }
 
 
