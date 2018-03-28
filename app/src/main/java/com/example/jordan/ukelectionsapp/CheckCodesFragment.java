@@ -84,7 +84,7 @@ public class CheckCodesFragment extends Fragment {
             innerLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             TextView labelView = new TextView(getContext());
-            labelView.setText("Candidate " + ( i + 1 ) + ":");
+            labelView.setText("Candidate " + ( i + 1 ) + ": ");
             innerLayout.addView(labelView);
 
             TextView codeView = new TextView(getContext());

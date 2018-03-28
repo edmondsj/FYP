@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Toolbar;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.Frame;
@@ -32,13 +34,10 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements ScannerFragment.OnFragmentInteractionListener
-                            , CheckCodesFragment.OnFragmentInteractionListener, FlipFragment.OnFragmentInteractionListener{
+                            , CheckCodesFragment.OnFragmentInteractionListener, FlipFragment.OnFragmentInteractionListener ,
+                                LoginFragment.OnFragmentInteractionListener{
 
-
-    private TextView txtView;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private ImageView myImageView;
-    private ScannedResult scannedResult;
 
 
     @Override
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.O
             }
 
             // Create a new Fragment to be placed in the activity layout
-            FlipFragment firstFragment = new FlipFragment();
+            LoginFragment firstFragment = new LoginFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments

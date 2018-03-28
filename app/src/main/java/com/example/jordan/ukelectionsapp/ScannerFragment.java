@@ -105,9 +105,6 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
         btn = (Button) view.findViewById(R.id.button);
         btn.setOnClickListener(this);
 
-        checkbtn = (Button) view.findViewById(R.id.checkBTN);
-        checkbtn.setOnClickListener(this);
-
         Log.d("emptyView" , "Fields Created");
 
         return view;
@@ -197,6 +194,8 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
             myBitmap = myBitmap.copy(Bitmap.Config.ARGB_8888,true);
             myImageView.setImageBitmap(myBitmap);
             Log.d("QR Result", "Pre Function Call ");
+            scanForQr();
+
         }
     }
 
@@ -207,11 +206,6 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
             case R.id.button:
                 dispatchTakePictureIntent();
                 break;
-
-            case R.id.checkBTN:
-                scanForQr();
-                break;
-
             default:
                 Log.d("hello", "ll");
         }

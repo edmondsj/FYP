@@ -39,14 +39,12 @@ public class ScannedResult {
 
     public int getNumCandidates() {
         numCandidates = fullCode.length() - 1; // 1 subtracted to account for source check
-        Log.d("Code Check", "Number of Candidates:" + numCandidates);
 
         return numCandidates;
     }
 
     public String[] getCandidateCodes() {
        String[] candidateCodes = new String[splitCode.length - 1];
-       Log.d("hellloooo", "" + splitCode.length);
         for (int x = 1; x < splitCode.length; x++) {
             candidateCodes[x - 1] = splitCode[x];
         }
