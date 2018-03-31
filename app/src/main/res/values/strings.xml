@@ -11,4 +11,22 @@
 After selecting the result of the coin flip on the voting website, you will be presented with a QR Code. Click “Continue” to scan this.
 </string>
 
+    <string name="success_disclaimer">If this vote has been cast against your
+will through means such as blackmail,
+bribery, intimidation or identity theft,
+you may recast you vote.
+Click here to find out more
+
+To do this, please bring valid ID  and this
+Mobile device to your local polling
+Polling station at any point during
+the voting period.
+
+You will also be asked to log back in to
+your account. Please ensure you know
+your credentials.
+
+You ballot ID is:
+</string>
+
 </resources>

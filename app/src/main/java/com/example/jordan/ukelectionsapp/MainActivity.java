@@ -1,41 +1,16 @@
 package com.example.jordan.ukelectionsapp;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.util.SparseArray;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.widget.Toolbar;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements ScannerFragment.OnFragmentInteractionListener
                             , CheckCodesFragment.OnFragmentInteractionListener, FlipFragment.OnFragmentInteractionListener ,
-                                LoginFragment.OnFragmentInteractionListener{
+                                LoginFragment.OnFragmentInteractionListener, CandidateEnterFragment.OnFragmentInteractionListener,
+                            SuccessFragment.OnFragmentInteractionListener, WebCheckFragment.OnFragmentInteractionListener{
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 

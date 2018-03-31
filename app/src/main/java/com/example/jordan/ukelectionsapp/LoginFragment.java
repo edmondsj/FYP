@@ -119,9 +119,19 @@ public class LoginFragment extends Fragment {
                  @Override
                  public void onResponse(String response) {
                      // Display the first 500 characters of the response string.
-                     textView.setText(response);
+                     if (response.equals("Sign in Web")) {
+                         //textView.setText("Login credentials correct, Please Sign into website to continue");
+                         textView.setText(response);
 
-                     if (response.equals("signed in successfully")) {
+                     }
+                     if (response.equals("User Not Found")) {
+                         textView.setText(response);
+                        // textView.setText("User not found");
+                     }
+                     else {
+                         textView.setText(response);
+                         Session.getInstance();
+                         Session.getInstance().setID(response);
                          handleLogin();
                      }
                  }
@@ -130,7 +140,7 @@ public class LoginFragment extends Fragment {
          public void onErrorResponse(VolleyError error) {
              Toast.makeText(getActivity(),
                      "Error Signing In",
-                     Toast.LENGTH_SHORT).show();         }
+                     Toast.LENGTH_SHORT).show();}
      });
 
 // Add the request to the RequestQueue.
@@ -139,8 +149,8 @@ public class LoginFragment extends Fragment {
 
     public void handleLogin() {
         // Create fragment and give it an argument specifying the article it should show
-        textView.setText("Attemptig o change fragment");
-        FlipFragment newFragment = new FlipFragment();
+        textView.setText("Attempting to change fragment");
+        WebCheckFragment newFragment = new WebCheckFragment();
         Bundle args = new Bundle();
         newFragment.setArguments(args);
 

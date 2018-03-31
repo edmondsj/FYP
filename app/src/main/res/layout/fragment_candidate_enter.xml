@@ -1,0 +1,85 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jordan.ukelectionsapp.CandidateEnterFragment">
+
+<android.support.v7.widget.LinearLayoutCompat
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/chooseINSTR"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Please enter the code for your CHOSEN candidate from the highlighted code"/>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/can1"
+            android:layout_width="@dimen/pin_input_size"
+            android:layout_height="@dimen/pin_input_size"
+            android:textSize="@dimen/pin_text_size"
+            android:inputType="number"
+            android:nextFocusForward="@+id/can2"
+            android:gravity="center"
+            android:maxLength="1"/>
+
+        <EditText
+            android:id="@+id/can2"
+            android:layout_width="@dimen/pin_input_size"
+            android:layout_height="@dimen/pin_input_size"
+            android:textSize="@dimen/pin_text_size"
+            android:inputType="number"
+            android:nextFocusForward="@+id/can2"
+            android:maxLength="1"
+
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/can3"
+            android:layout_width="@dimen/pin_input_size"
+            android:layout_height="@dimen/pin_input_size"
+            android:textSize="@dimen/pin_text_size"
+            android:inputType="number"
+            android:nextFocusForward="@+id/can2"
+            android:maxLength="1"
+            android:gravity="center"/>
+        />
+
+        <EditText
+            android:layout_width="@dimen/pin_input_size"
+            android:layout_height="@dimen/pin_input_size"
+            android:textSize="@dimen/pin_text_size"
+            android:inputType="number"
+            android:nextFocusForward="@+id/can2"
+            android:maxLength="1"
+            android:gravity="center"/>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+    <RelativeLayout
+        android:id="@+id/InnerRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+    <Button
+        android:id="@+id/chooseBTN"
+        android:text="Continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#88D050"
+        android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+
+</android.support.v7.widget.LinearLayoutCompat>
+
+</FrameLayout>
