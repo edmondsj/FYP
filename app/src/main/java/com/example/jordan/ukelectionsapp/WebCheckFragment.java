@@ -87,11 +87,8 @@ public class WebCheckFragment extends Fragment {
             @Override
             public void run() {
                 //Do something after 100ms
-                Log.d("Testing", "Hello");
 
                 check();
-                Log.d("Testing", "Hi");
-
                 handler.postDelayed(this, 2000);
             }
         };

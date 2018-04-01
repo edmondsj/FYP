@@ -22,7 +22,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 
 /**
@@ -110,8 +114,12 @@ public class LoginFragment extends Fragment {
              "Signing in",
              Toast.LENGTH_SHORT).show();
 
+      String hashpass = getHash(pass);
+
+
      RequestQueue queue = Volley.newRequestQueue(getActivity());
-     String url = "http://localhost:5000/duvote/login_app.php?number=" + number + "&pass=" + pass;
+     String url = "http://localhost:5000/duvote/login_app.php?number=" + number + "&pass=" + hashpass;
+      Log.i("HashedPassword:", hashpass);
 
 // Request a string response from the provided URL.
      StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -162,6 +170,11 @@ public class LoginFragment extends Fragment {
 
 // Commit the transaction
         transaction.commit();
+    }
+
+    private static String getHash(String pass) {
+        String s =  new String(Hex.encodeHex(DigestUtils.sha256(pass)));
+        return s;
     }
 
     @Override

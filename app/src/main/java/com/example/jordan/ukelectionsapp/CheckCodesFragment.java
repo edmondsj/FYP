@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +35,7 @@ public class CheckCodesFragment extends Fragment {
     private ScannedResult codeObject;
 
     private OnFragmentInteractionListener mListener;
+    private Button proceedButton;
 
     public CheckCodesFragment() {
         // Required empty public constructor
@@ -93,6 +96,26 @@ public class CheckCodesFragment extends Fragment {
 
             linearLayout.addView(innerLayout);
         }
+
+        proceedButton = (Button) view.findViewById(R.id.codes_correct_btn);
+
+        proceedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CandidateEnterFragment newFragment = new CandidateEnterFragment();
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, newFragment);
+
+                // Commit the transaction
+                transaction.commit();
+
+            }
+        });
 
         return view;
     }

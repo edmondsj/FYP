@@ -28,7 +28,6 @@
             android:layout_height="@dimen/pin_input_size"
             android:textSize="@dimen/pin_text_size"
             android:inputType="number"
-            android:nextFocusForward="@+id/can2"
             android:gravity="center"
             android:maxLength="1"/>
 
@@ -38,9 +37,7 @@
             android:layout_height="@dimen/pin_input_size"
             android:textSize="@dimen/pin_text_size"
             android:inputType="number"
-            android:nextFocusForward="@+id/can2"
             android:maxLength="1"
-
             android:gravity="center"/>
 
         <EditText
@@ -49,17 +46,16 @@
             android:layout_height="@dimen/pin_input_size"
             android:textSize="@dimen/pin_text_size"
             android:inputType="number"
-            android:nextFocusForward="@+id/can2"
             android:maxLength="1"
             android:gravity="center"/>
         />
 
         <EditText
+            android:id="@+id/can4"
             android:layout_width="@dimen/pin_input_size"
             android:layout_height="@dimen/pin_input_size"
             android:textSize="@dimen/pin_text_size"
             android:inputType="number"
-            android:nextFocusForward="@+id/can2"
             android:maxLength="1"
             android:gravity="center"/>
 

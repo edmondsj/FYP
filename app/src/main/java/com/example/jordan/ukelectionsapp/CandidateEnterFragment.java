@@ -4,9 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 /**
@@ -26,6 +31,8 @@ public class CandidateEnterFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private EditText box1,box2,box3,box4;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +71,66 @@ public class CandidateEnterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_candidate_enter, container, false);
+        View view = inflater.inflate(R.layout.fragment_candidate_enter, container, false);
+
+        box1 = (EditText) view.findViewById(R.id.can1);
+        box2 = (EditText) view.findViewById(R.id.can2);
+        box3 = (EditText) view.findViewById(R.id.can3);
+        box4 = (EditText) view.findViewById(R.id.can4);
+
+
+        box1.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                box2.requestFocus();
+            }
+        });
+
+        box2.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                box3.requestFocus();
+            }
+        });
+
+        box3.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                box4.requestFocus();
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
