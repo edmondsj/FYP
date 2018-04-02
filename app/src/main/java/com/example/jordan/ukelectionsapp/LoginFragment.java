@@ -2,7 +2,9 @@ package com.example.jordan.ukelectionsapp;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -19,11 +21,18 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
@@ -52,6 +61,8 @@ public class LoginFragment extends Fragment {
     private EditText userNI, mPassword;
     private Button loginButton;
     private TextView textView;
+
+    private String sessionID;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -109,50 +120,44 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
- private void loginRequest(String number, String pass){
-     Toast.makeText(getActivity(),
-             "Signing in",
-             Toast.LENGTH_SHORT).show();
+ private void loginRequest(final String number, final String password){
+     String url = "http://localhost:5000/duvote/login_app.php";
 
-      String hashpass = getHash(pass);
-
-
-     RequestQueue queue = Volley.newRequestQueue(getActivity());
-     String url = "http://localhost:5000/duvote/login_app.php?number=" + number + "&pass=" + hashpass;
-      Log.i("HashedPassword:", hashpass);
-
-// Request a string response from the provided URL.
-     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+     StringRequest strRequest = new StringRequest(Request.Method.POST, url,
              new Response.Listener<String>() {
                  @Override
-                 public void onResponse(String response) {
-                     // Display the first 500 characters of the response string.
-                     if (response.equals("Sign in Web")) {
-                         //textView.setText("Login credentials correct, Please Sign into website to continue");
+                 public void onResponse(String response)
+                 {
+                     if(response.equals("User Not Found")) {
                          textView.setText(response);
-
-                     }
-                     if (response.equals("User Not Found")) {
-                         textView.setText(response);
-                        // textView.setText("User not found");
                      }
                      else {
-                         textView.setText(response);
-                         Session.getInstance();
-                         Session.getInstance().setID(response);
+                         sessionID = response;
+                         Session.getInstance().setID(sessionID);
                          handleLogin();
                      }
                  }
-             }, new Response.ErrorListener() {
+             },
+             new Response.ErrorListener() {
+                 @Override
+                 public void onErrorResponse(VolleyError error)
+                 {
+                     textView.setText(error.getLocalizedMessage());
+                 }
+             })
+     {
          @Override
-         public void onErrorResponse(VolleyError error) {
-             Toast.makeText(getActivity(),
-                     "Error Signing In",
-                     Toast.LENGTH_SHORT).show();}
-     });
+         protected Map<String, String> getParams() {
+             Map<String, String> params = new HashMap<String, String>();
+             params.put("UserName", number);
+             params.put("Password", password);
 
-// Add the request to the RequestQueue.
-     queue.add(stringRequest);
+             return params;
+         }
+     };
+
+// Access the RequestQueue through your singleton class.
+     MySingleton.getInstance(getActivity()).addToRequestQueue(strRequest);
  }
 
     public void handleLogin() {
@@ -170,11 +175,6 @@ public class LoginFragment extends Fragment {
 
 // Commit the transaction
         transaction.commit();
-    }
-
-    private static String getHash(String pass) {
-        String s =  new String(Hex.encodeHex(DigestUtils.sha256(pass)));
-        return s;
     }
 
     @Override

@@ -81,6 +81,8 @@ public class WebCheckFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         session = Session.getInstance().getID();
+        Log.d("Testing", session);
+
 
         handler = new Handler();
         runnable = new Runnable() {
