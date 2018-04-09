@@ -4,26 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CheckCodesFragment.OnFragmentInteractionListener} interface
+ * {@link DisplayFinalCodeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CheckCodesFragment#newInstance} factory method to
+ * Use the {@link DisplayFinalCodeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CheckCodesFragment extends Fragment {
+public class DisplayFinalCodeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,12 +27,9 @@ public class CheckCodesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ScannedResult codeObject;
-
     private OnFragmentInteractionListener mListener;
-    private Button proceedButton;
 
-    public CheckCodesFragment() {
+    public DisplayFinalCodeFragment() {
         // Required empty public constructor
     }
 
@@ -48,11 +39,11 @@ public class CheckCodesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CheckCodesFragment.
+     * @return A new instance of fragment DisplayFinalCodeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CheckCodesFragment newInstance(String param1, String param2) {
-        CheckCodesFragment fragment = new CheckCodesFragment();
+    public static DisplayFinalCodeFragment newInstance(String param1, String param2) {
+        DisplayFinalCodeFragment fragment = new DisplayFinalCodeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -73,62 +64,7 @@ public class CheckCodesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_check_codes, container, false);
-
-        codeObject = ScannedResult.getInstance();
-        String[] candidateCodes = codeObject.getCandidateCodes();
-
-
-        LinearLayout linearLayout = view.findViewById(R.id.check_codes_layout);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-        for( int i = 0; i < codeObject.getCandidateCodes().length; i++ )
-        {
-            LinearLayout innerLayout = new LinearLayout(getActivity().getApplicationContext());
-            innerLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-            TextView labelView = new TextView(getContext());
-            labelView.setText("Candidate " + ( i + 1 ) + ": ");
-            innerLayout.addView(labelView);
-
-            Button codeView = new Button(getContext());
-            codeView.setText(candidateCodes[i]);
-
-            final int buttonNumber = i; //For Debug Purposes
-
-            codeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CheckButtonPress", "" + buttonNumber);
-            }
-        });
-
-            innerLayout.addView(codeView);
-
-            linearLayout.addView(innerLayout);
-        }
-
-        proceedButton = (Button) view.findViewById(R.id.codes_correct_btn);
-
-        proceedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                CandidateEnterFragment newFragment = new CandidateEnterFragment();
-
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, newFragment);
-
-                // Commit the transaction
-                transaction.commit();
-
-            }
-        });
-
-        return view;
+        return inflater.inflate(R.layout.fragment_display_final_code, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -155,9 +91,10 @@ public class CheckCodesFragment extends Fragment {
         mListener = null;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        //   super.onSaveInstanceState(outState);
+    public String createCode() {
+
+
+        return "code";
     }
 
     /**

@@ -2,41 +2,25 @@ package com.example.jordan.ukelectionsapp;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
-import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,6 +73,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -120,6 +105,12 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.logOut).setVisible(false);
+        super.onPrepareOptionsMenu(menu);
+    }
+
  private void loginRequest(final String number, final String password){
      String url = "http://localhost:5000/duvote/login_app.php";
 
@@ -134,6 +125,8 @@ public class LoginFragment extends Fragment {
                      else {
                          sessionID = response;
                          Session.getInstance().setID(sessionID);
+                         Session.getInstance().setNiNumber(number);
+
                          handleLogin();
                      }
                  }
@@ -157,7 +150,7 @@ public class LoginFragment extends Fragment {
      };
 
 // Access the RequestQueue through your singleton class.
-     MySingleton.getInstance(getActivity()).addToRequestQueue(strRequest);
+     VolleySingleton.getInstance(getActivity()).addToRequestQueue(strRequest);
  }
 
     public void handleLogin() {

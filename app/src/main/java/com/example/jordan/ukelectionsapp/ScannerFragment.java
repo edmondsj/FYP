@@ -92,6 +92,9 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        dispatchTakePictureIntent();
+
+
         Log.d("emptyView" , "oncreateView");
 
         // Inflate the layout for this fragment

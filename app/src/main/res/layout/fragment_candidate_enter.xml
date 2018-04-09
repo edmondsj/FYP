@@ -74,8 +74,6 @@
         android:backgroundTint="#88D050"
         android:layout_alignParentBottom="true"/>
     </RelativeLayout>
-
-
 </android.support.v7.widget.LinearLayoutCompat>
 
 </FrameLayout>

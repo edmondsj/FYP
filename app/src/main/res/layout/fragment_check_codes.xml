@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     tools:context="com.example.jordan.ukelectionsapp.CheckCodesFragment">
 
-
     <Button
         android:id="@+id/codes_correct_btn"
         android:text="These Codes are Correct, Continue"
