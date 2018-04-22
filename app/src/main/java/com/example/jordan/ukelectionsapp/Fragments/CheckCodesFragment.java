@@ -1,10 +1,16 @@
-package com.example.jordan.ukelectionsapp;
+package com.example.jordan.ukelectionsapp.Fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.jordan.ukelectionsapp.R;
+import com.example.jordan.ukelectionsapp.ScannedResult;
+
+import java.util.ArrayList;
 
 
 /**
@@ -33,10 +44,14 @@ public class CheckCodesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private static ArrayList<Button> codeViews;
+
     private ScannedResult codeObject;
 
     private OnFragmentInteractionListener mListener;
     private Button proceedButton;
+
+    private static Integer lastClicked;
 
     public CheckCodesFragment() {
         // Required empty public constructor
@@ -67,6 +82,8 @@ public class CheckCodesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        codeViews = new ArrayList<>();
     }
 
     @Override
@@ -99,16 +116,21 @@ public class CheckCodesFragment extends Fragment {
             codeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CheckButtonPress", "" + buttonNumber);
+                Log.i("CheckButtonPress", "" + buttonNumber);
+                lastClicked = buttonNumber;
+                ChangeCodeDialog box = new ChangeCodeDialog();
+                box.show(getFragmentManager(), "MyDialogFragment");
             }
         });
+
+            codeViews.add(codeView);
 
             innerLayout.addView(codeView);
 
             linearLayout.addView(innerLayout);
         }
 
-        proceedButton = (Button) view.findViewById(R.id.codes_correct_btn);
+        proceedButton = view.findViewById(R.id.codes_correct_btn);
 
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,10 +153,16 @@ public class CheckCodesFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public int getLastClicked() {
+        return lastClicked;
+    }
+
+    public static void setButtonText(String code) {
+        if(lastClicked == null) {
+            //do nothing
+        }
+        else {
+            codeViews.get(lastClicked).setText(code);
         }
     }
 
@@ -174,4 +202,90 @@ public class CheckCodesFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public static class ChangeCodeDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            // Get the layout inflater
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            final View view = inflater.inflate(R.layout.fragment_change_code_dialog, null);
+            builder.setView(view);
+
+            final EditText box1 = view.findViewById(R.id.change1);
+            final EditText box2 = view.findViewById(R.id.change2);
+            final EditText box3 = view.findViewById(R.id.change3);
+            final EditText box4 = view.findViewById(R.id.change4);
+
+            box1.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                public void onTextChanged(CharSequence s, int start,
+                                          int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    box2.requestFocus();
+                }
+            });
+
+            box2.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                public void onTextChanged(CharSequence s, int start,
+                                          int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    box3.requestFocus();
+                }
+            });
+
+            box3.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                public void onTextChanged(CharSequence s, int start,
+                                          int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    box4.requestFocus();
+                }
+            });
+
+            builder.setMessage("Edit Code for Candidate")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            String newCode = "" + box1.getText() + box2.getText() + box3.getText() + box4.getText();
+                            setButtonText(newCode);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            lastClicked = null;
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    }
+
 }

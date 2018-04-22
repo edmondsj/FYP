@@ -1,9 +1,10 @@
-package com.example.jordan.ukelectionsapp;
+package com.example.jordan.ukelectionsapp.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import com.example.jordan.ukelectionsapp.R;
+import com.example.jordan.ukelectionsapp.ScannedResult;
 
 
 /**
@@ -23,16 +26,9 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class CandidateEnterFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private EditText box1,box2,box3,box4;
+    private Button enterCodeBtn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -48,12 +44,10 @@ public class CandidateEnterFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment CandidateEnterFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static CandidateEnterFragment newInstance(String param1, String param2) {
         CandidateEnterFragment fragment = new CandidateEnterFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,8 +56,7 @@ public class CandidateEnterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -73,10 +66,10 @@ public class CandidateEnterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_candidate_enter, container, false);
 
-        box1 = (EditText) view.findViewById(R.id.can1);
-        box2 = (EditText) view.findViewById(R.id.can2);
-        box3 = (EditText) view.findViewById(R.id.can3);
-        box4 = (EditText) view.findViewById(R.id.can4);
+        box1 = view.findViewById(R.id.can1);
+        box2 = view.findViewById(R.id.can2);
+        box3 = view.findViewById(R.id.can3);
+        box4 = view.findViewById(R.id.can4);
 
 
         box1.addTextChangedListener(new TextWatcher() {
@@ -129,6 +122,33 @@ public class CandidateEnterFragment extends Fragment {
                 box4.requestFocus();
             }
         });
+
+        enterCodeBtn = (Button) view.findViewById(R.id.chooseBTN);
+        enterCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[] code = new int[4];
+                code[0] = Integer.parseInt("" + box1.getText());
+                code[1] = Integer.parseInt("" + box2.getText());
+                code[2] = Integer.parseInt("" + box3.getText());
+                code[3] = Integer.parseInt("" + box4.getText());
+
+                ScannedResult.getInstance().setSelectedCode(code);
+
+                DisplayFinalCodeFragment newFragment = new DisplayFinalCodeFragment();
+                Bundle args = new Bundle();
+                newFragment.setArguments(args);
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, newFragment);
+
+                // Commit the transaction
+                transaction.commit();
+            }
+            });
 
         return view;
     }

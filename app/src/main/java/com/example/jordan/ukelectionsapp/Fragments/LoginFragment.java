@@ -1,10 +1,11 @@
-package com.example.jordan.ukelectionsapp;
+package com.example.jordan.ukelectionsapp.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +18,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.jordan.ukelectionsapp.R;
+import com.example.jordan.ukelectionsapp.Session;
+import com.example.jordan.ukelectionsapp.URL;
+import com.example.jordan.ukelectionsapp.VolleySingleton;
 
 
 import java.util.HashMap;
@@ -78,6 +83,8 @@ public class LoginFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Log.i("Session Sign in", "Login fragment created");
+
     }
 
     @Override
@@ -86,12 +93,12 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        userNI = (EditText) view.findViewById(R.id.editTextUsername);
-        mPassword = (EditText) view.findViewById(R.id.editTextPassword);
-        textView = (TextView) view.findViewById(R.id.loginText);
+        userNI = view.findViewById(R.id.editTextUsername);
+        mPassword = view.findViewById(R.id.editTextPassword);
+        textView = view.findViewById(R.id.loginText);
 
 
-        loginButton = (Button) view.findViewById(R.id.buttonLogin);
+        loginButton = view.findViewById(R.id.buttonLogin);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,22 +119,30 @@ public class LoginFragment extends Fragment {
     }
 
  private void loginRequest(final String number, final String password){
-     String url = "http://localhost:5000/duvote/login_app.php";
+     String url = URL.LOGIN;
 
      StringRequest strRequest = new StringRequest(Request.Method.POST, url,
              new Response.Listener<String>() {
                  @Override
                  public void onResponse(String response)
                  {
-                     if(response.equals("User Not Found")) {
-                         textView.setText(response);
-                     }
-                     else {
-                         sessionID = response;
+                     String[] splitResponse = response.split(",");
+                     if(splitResponse[0].equals("1")) {
+                         sessionID = splitResponse[1];
                          Session.getInstance().setID(sessionID);
+
+                         Log.i("Session Sign in", "Session ID: " + sessionID + " ; Ni Number: " + number);
                          Session.getInstance().setNiNumber(number);
 
+                         textView.setText("Success" + response);
+
+
+
                          handleLogin();
+                     }
+                     else {
+
+                         textView.setText("Fail" + response + "::::" + splitResponse[0]);
                      }
                  }
              },

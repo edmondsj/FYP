@@ -29,4 +29,16 @@ your credentials.
 You ballot ID is:
 </string>
 
+    //Web Check Fragment
+    <string name="successfull_signin">Signed in Successfully. To continue, please sign into the website"</string>
+
+    //Login Fragment
+    <string name="loginBTN">Login</string>
+    <string name="passwordHint">Password</string>
+    <string name="numberHint">QQ 12 34 56 C</string>
+
+    //Check Terms Fragment
+    <string name="check_terms_text">In order to complete your vote, please accept the terms displayed on your Personal Computer.</string>
+
+
 </resources>

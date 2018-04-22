@@ -2,18 +2,16 @@ package com.example.jordan.ukelectionsapp;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-
-import java.sql.Array;
-
 /**
  * Created by Jordan on 22/03/2018.
+ * Store the results of the scanned QR Code
  */
 
 public class ScannedResult {
     private static String fullCode;
-    private int numCandidates;
     private String[] splitCode;
     private String correctSourceCode;
+    private int[] selectedCode;
 
     private static ScannedResult instance;
 
@@ -31,23 +29,23 @@ public class ScannedResult {
     }
 
     public void create(String code) {
-        this.fullCode = code;
+        fullCode = code;
         this.splitCode = splitCode();
         fromCorrectSource();
-
+        selectedCode = new int[4];
     }
 
-    public int getNumCandidates() {
-        numCandidates = fullCode.length() - 1; // 1 subtracted to account for source check
+    public void setSelectedCode(int[] code) {
+        selectedCode = code;
+    }
 
-        return numCandidates;
+    public int[] getSelectedCode() {
+        return selectedCode;
     }
 
     public String[] getCandidateCodes() {
        String[] candidateCodes = new String[splitCode.length - 1];
-        for (int x = 1; x < splitCode.length; x++) {
-            candidateCodes[x - 1] = splitCode[x];
-        }
+        System.arraycopy(splitCode, 1, candidateCodes, 0, splitCode.length - 1);
         return candidateCodes;
     }
 

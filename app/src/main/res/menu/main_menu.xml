@@ -4,6 +4,10 @@
 
     <group android:id="@+id/menu_group">
         <item
+            android:id="@+id/menu_sessionID"
+            android:title="Error"
+            app:showAsAction="never"/>
+        <item
             android:id="@+id/logOut"
             android:title="Log Out"
             app:showAsAction="never"/>

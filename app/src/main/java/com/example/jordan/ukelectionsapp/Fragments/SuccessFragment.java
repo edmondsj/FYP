@@ -1,23 +1,32 @@
-package com.example.jordan.ukelectionsapp;
+package com.example.jordan.ukelectionsapp.Fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.jordan.ukelectionsapp.R;
+import com.example.jordan.ukelectionsapp.Session;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DisplayFinalCodeFragment.OnFragmentInteractionListener} interface
+ * {@link SuccessFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DisplayFinalCodeFragment#newInstance} factory method to
+ * Use the {@link SuccessFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DisplayFinalCodeFragment extends Fragment {
+public class SuccessFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +38,7 @@ public class DisplayFinalCodeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public DisplayFinalCodeFragment() {
+    public SuccessFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +48,11 @@ public class DisplayFinalCodeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DisplayFinalCodeFragment.
+     * @return A new instance of fragment SuccessFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DisplayFinalCodeFragment newInstance(String param1, String param2) {
-        DisplayFinalCodeFragment fragment = new DisplayFinalCodeFragment();
+    public static SuccessFragment newInstance(String param1, String param2) {
+        SuccessFragment fragment = new SuccessFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +73,7 @@ public class DisplayFinalCodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_display_final_code, container, false);
+        return inflater.inflate(R.layout.fragment_success, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,11 +100,6 @@ public class DisplayFinalCodeFragment extends Fragment {
         mListener = null;
     }
 
-    public String createCode() {
-
-
-        return "code";
-    }
 
     /**
      * This interface must be implemented by activities that contain this

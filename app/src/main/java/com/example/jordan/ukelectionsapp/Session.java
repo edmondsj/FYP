@@ -2,6 +2,7 @@ package com.example.jordan.ukelectionsapp;
 
 /**
  * Created by Jordan on 30/03/2018.
+ * Store Information regarding Session data
  */
 
 public class Session {
@@ -24,7 +25,7 @@ public class Session {
         id = the_id;
     }
 
-    public String getID() {
+    public String getSessionNumber() {
         return id;
     }
 

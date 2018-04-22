@@ -1,18 +1,23 @@
-package com.example.jordan.ukelectionsapp;
+package com.example.jordan.ukelectionsapp.Fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.jordan.ukelectionsapp.R;
+import com.example.jordan.ukelectionsapp.ScannerFragment;
+import com.example.jordan.ukelectionsapp.Session;
 
 
 /**
@@ -102,6 +107,18 @@ public class FlipFragment extends Fragment implements View.OnClickListener {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        Toast.makeText(getActivity(), "Preparing Menu", Toast.LENGTH_LONG).show();
+
+
+        menu.findItem(R.id.logOut).setVisible(false);
+        MenuItem menuItem = menu.findItem(R.id.menu_sessionID);
+        menuItem.setTitle("Session:" + Session.getInstance().getSessionNumber());
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

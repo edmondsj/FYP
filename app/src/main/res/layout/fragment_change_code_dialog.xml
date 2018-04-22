@@ -8,23 +8,10 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/chooseINSTR"
-            android:gravity="center"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Please enter the code below onto the website when prompted"/>
-
-        <android.support.v7.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/num1"
-                android:text="0"
+            <EditText
+                android:id="@+id/change1"
                 android:layout_width="@dimen/pin_input_size"
                 android:layout_height="@dimen/pin_input_size"
                 android:textSize="@dimen/pin_text_size"
@@ -32,9 +19,8 @@
                 android:gravity="center"
                 android:maxLength="1"/>
 
-            <TextView
-                android:id="@+id/num2"
-                android:text="0"
+            <EditText
+                android:id="@+id/change2"
                 android:layout_width="@dimen/pin_input_size"
                 android:layout_height="@dimen/pin_input_size"
                 android:textSize="@dimen/pin_text_size"
@@ -42,41 +28,23 @@
                 android:maxLength="1"
                 android:gravity="center"/>
 
-            <TextView
-                android:id="@+id/num3"
-                android:text="0"
+            <EditText
+                android:id="@+id/change3"
                 android:layout_width="@dimen/pin_input_size"
                 android:layout_height="@dimen/pin_input_size"
                 android:textSize="@dimen/pin_text_size"
                 android:inputType="number"
                 android:maxLength="1"
                 android:gravity="center"/>
+            />
 
-            <TextView
-                android:id="@+id/num4"
-                android:text="0"
+            <EditText
+                android:id="@+id/change4"
                 android:layout_width="@dimen/pin_input_size"
                 android:layout_height="@dimen/pin_input_size"
                 android:textSize="@dimen/pin_text_size"
                 android:inputType="number"
                 android:maxLength="1"
                 android:gravity="center"/>
-
-        </android.support.v7.widget.LinearLayoutCompat>
-        <RelativeLayout
-            android:id="@+id/InnerRelativeLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" >
-
-            <Button
-                android:id="@+id/chooseBTN"
-                android:text="Continue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#88D050"
-                android:layout_alignParentBottom="true"/>
-        </RelativeLayout>
     </android.support.v7.widget.LinearLayoutCompat>
-
 </FrameLayout>

@@ -17,15 +17,25 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.jordan.ukelectionsapp.Fragments.CandidateEnterFragment;
+import com.example.jordan.ukelectionsapp.Fragments.CheckCodesFragment;
+import com.example.jordan.ukelectionsapp.Fragments.CheckTermsFragment;
+import com.example.jordan.ukelectionsapp.Fragments.ConfirmCandidateFragment;
+import com.example.jordan.ukelectionsapp.Fragments.DisplayFinalCodeFragment;
+import com.example.jordan.ukelectionsapp.Fragments.FlipFragment;
+import com.example.jordan.ukelectionsapp.Fragments.LoginFragment;
+import com.example.jordan.ukelectionsapp.Fragments.SuccessFragment;
+import com.example.jordan.ukelectionsapp.Fragments.WebCheckFragment;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements ScannerFragment.OnFragmentInteractionListener
-                            , CheckCodesFragment.OnFragmentInteractionListener, FlipFragment.OnFragmentInteractionListener ,
-                                LoginFragment.OnFragmentInteractionListener, CandidateEnterFragment.OnFragmentInteractionListener,
-                            SuccessFragment.OnFragmentInteractionListener, WebCheckFragment.OnFragmentInteractionListener,
-                            DisplayFinalCodeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements ScannerFragment.OnFragmentInteractionListener,
+        CheckCodesFragment.OnFragmentInteractionListener, FlipFragment.OnFragmentInteractionListener ,
+        LoginFragment.OnFragmentInteractionListener, CandidateEnterFragment.OnFragmentInteractionListener,
+        SuccessFragment.OnFragmentInteractionListener, WebCheckFragment.OnFragmentInteractionListener,
+        DisplayFinalCodeFragment.OnFragmentInteractionListener, ConfirmCandidateFragment.OnFragmentInteractionListener,
+        CheckTermsFragment.OnFragmentInteractionListener{
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -34,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         //Android Provided Tool to prevent screen capture
@@ -56,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.O
             }
 
             // Create a new Fragment to be placed in the activity layout
-            DisplayFinalCodeFragment firstFragment = new DisplayFinalCodeFragment();
+            LoginFragment firstFragment = new LoginFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
@@ -67,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.O
                     .add(R.id.fragment_container, firstFragment).commit();
         }
     }
-
-    public void sendNotificationLogin() { }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -105,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.O
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String url = "http://localhost:5000/duvote/logout_app.php";
+                        String url = URL.LOGOUT;
 
                         //TODO: Session does not currently get set to 0
 
@@ -133,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.O
                                 }) {
                             @Override
                             protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-                                Log.i("Signing Out", Session.getInstance().getID());
+                                Map<String, String> params = new HashMap<>();
+                                Log.i("Signing Out", Session.getInstance().getSessionNumber());
                                 params.put("session", Session.getInstance().getNiNumber());
 
                                 return params;

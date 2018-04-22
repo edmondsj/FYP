@@ -1,4 +1,4 @@
-package com.example.jordan.ukelectionsapp;
+package com.example.jordan.ukelectionsapp.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,16 +8,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.jordan.ukelectionsapp.R;
+import com.example.jordan.ukelectionsapp.Session;
+import com.example.jordan.ukelectionsapp.URL;
+import com.example.jordan.ukelectionsapp.VolleySingleton;
 
 
 /**
@@ -44,6 +48,8 @@ public class WebCheckFragment extends Fragment {
     private Runnable runnable;
 
     private OnFragmentInteractionListener mListener;
+
+    private Menu menu;
 
     public WebCheckFragment() {
         // Required empty public constructor
@@ -74,27 +80,32 @@ public class WebCheckFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        session = Session.getInstance().getSessionNumber();
+
+        setHasOptionsMenu(true); //Inform gradle that menu needs changing
+
+        handler = new Handler();
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                Log.d("HandlerIteration", "Running" );
+                check();
+                handler.postDelayed(this, 2000);
+            }
+        };
+        handler.postDelayed(runnable, 1500);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        session = Session.getInstance().getID();
-        Log.d("Testing", session);
-
-
-        handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 100ms
-
-                check();
-                handler.postDelayed(this, 2000);
-            }
-        };
-        handler.postDelayed(runnable, 1500);
+        //session = Session.getInstance().getSessionNumber();
+        Log.d("SessionID Login", session);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_web__check_, container, false);
@@ -102,16 +113,15 @@ public class WebCheckFragment extends Fragment {
 
     public void check() {
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = "http://localhost:5000/duvote/check_web.php?number=" + session;
-        Log.d("Testing", session);
+        String url = URL.CHECKWEB + session;
+        Log.d("Testing", url);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Testing", response);
+                        Log.i("Sign In Response", response);
                         // Display the first 500 characters of the response string.
                         if (response.equals("Sign in Web")) {
 
@@ -133,13 +143,13 @@ public class WebCheckFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(),
-                        "Error Signing In",
-                        Toast.LENGTH_SHORT).show();}
+                Log.i("Sign In Response", error.getStackTrace().toString());
+
+            }
         });
 
 // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -147,6 +157,17 @@ public class WebCheckFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        //Toast.makeText(getActivity(), "Preparing Menu", Toast.LENGTH_LONG).show();
+        menu.findItem(R.id.logOut).setVisible(false);
+        MenuItem menuItem = menu.findItem(R.id.menu_sessionID);
+        menuItem.setTitle("Session:" + Session.getInstance().getSessionNumber());
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
