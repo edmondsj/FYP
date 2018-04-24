@@ -123,7 +123,7 @@ public class CandidateEnterFragment extends Fragment {
             }
         });
 
-        enterCodeBtn = (Button) view.findViewById(R.id.chooseBTN);
+        enterCodeBtn = view.findViewById(R.id.chooseBTN);
         enterCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

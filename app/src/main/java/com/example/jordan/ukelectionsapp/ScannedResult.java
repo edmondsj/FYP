@@ -56,7 +56,7 @@ public class ScannedResult {
 
     }
 
-    private boolean fromCorrectSource() {
+    public boolean fromCorrectSource() {
         if (splitCode[0].equals(correctSourceCode)) {
             Log.d("Code Check", "Correct Code Source" + splitCode[0]);
             return true;

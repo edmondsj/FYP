@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView android:text="If the aplication is having difficulties scanning the QR, you may try again. Alternativiely, you can manually enter the required values."
+        <TextView android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ScanOption"/>
@@ -21,20 +21,17 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Try Again"
-            android:id="@+id/button"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true" />
+            android:text="@string/tryAgainQR"
+            android:id="@+id/button"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Manually Enter"
-            android:id="@+id/checkBTN"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true" />
+            android:text="@string/manually_enter_QR"
+            android:id="@+id/manually_enter_QR"/>
+
+        <!-- Image View used for easy debugging. Shows taken image -->
         <ImageView
+            android:contentDescription="@string/testImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imgview"/>

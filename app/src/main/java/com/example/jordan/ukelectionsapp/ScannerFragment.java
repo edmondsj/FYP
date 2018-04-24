@@ -1,21 +1,30 @@
 package com.example.jordan.ukelectionsapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.jordan.ukelectionsapp.Fragments.CheckCodesFragment;
@@ -48,7 +57,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
     private Bitmap myBitmap;
     private TextView txtView;
     private ImageView myImageView;
-    private Button btn, checkbtn;
+    private Button pictureIntentBTN, manualEnterButton;
     private ScannedResult scannedResult;
 
     public ScannerFragment() {
@@ -70,7 +79,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-        Log.d("emptyView" , "returnung fragment");
+        Log.d("emptyView" , "returning fragment");
 
         return fragment;
     }
@@ -102,11 +111,14 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
         Log.d("emptyView" , "view inflated");
 
 
-        txtView = (TextView) view.findViewById(R.id.txtContent);
-        myImageView = (ImageView) view.findViewById(R.id.imgview);
+        txtView = view.findViewById(R.id.txtContent);
+        myImageView = view.findViewById(R.id.imgview);
 
-        btn = (Button) view.findViewById(R.id.button);
-        btn.setOnClickListener(this);
+        pictureIntentBTN =  view.findViewById(R.id.button);
+        pictureIntentBTN.setOnClickListener(this);
+
+        manualEnterButton = view.findViewById(R.id.manually_enter_QR);
+        manualEnterButton.setOnClickListener(this);
 
         Log.d("emptyView" , "Fields Created");
 
@@ -154,24 +166,30 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
 
         // Check That a QR code was detected and successfully returned by Detector
         if(barcodes.size() == 1) {
-            Barcode thisCode = barcodes.valueAt(0);
-            txtView.setText(thisCode.rawValue);
+            Barcode barcode = barcodes.valueAt(0);
+            txtView.setText(barcode.rawValue);
 
             //Create Scanned Results Object, this will be used to input the candidate codes
             scannedResult = ScannedResult.getInstance();
-            scannedResult.create(thisCode.rawValue);
+            scannedResult.create(barcode.rawValue);
 
-            // Create fragment and give it an argument specifying the article it should show
-            CheckCodesFragment newFragment = new CheckCodesFragment();
+            if(ScannedResult.getInstance().fromCorrectSource()) {
 
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                // Create fragment and give it an argument specifying the article it should show
+                CheckCodesFragment newFragment = new CheckCodesFragment();
 
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, newFragment);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
-// Commit the transaction
-            transaction.commit();
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, newFragment);
+
+                // Commit the transaction
+                transaction.commit();
+            }
+            else {
+                txtView.setText("This QR is either not from the UK elections website or is out of date. Please try again.");
+            }
 
         }
         else {
@@ -207,6 +225,24 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
             case R.id.button:
                 dispatchTakePictureIntent();
                 break;
+            case R.id.manually_enter_QR:
+                scannedResult = ScannedResult.getInstance();
+                String defaultValue = "UKVOTING1,0000";
+
+                // Create fragment and give it an argument specifying the article it should show
+                CheckCodesFragment newFragment = new CheckCodesFragment();
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, newFragment);
+
+                // Commit the transaction
+                transaction.commit();
+
+                scannedResult.create(defaultValue);
+
             default:
                 Log.d("hello", "ll");
         }
@@ -225,5 +261,54 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static class ChangeCodeDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            // Get the layout inflater
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            final View view = inflater.inflate(R.layout.fragment_num_candidates, null);
+            builder.setView(view);
+
+
+            builder.setMessage("Edit Code for Candidate")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                    Spinner spinner = getActivity().findViewById(R.id.candidates_spinner);
+                    // Create an ArrayAdapter using the string array and a default spinner layout
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                            R.array.add_num_candidates, android.R.layout.simple_spinner_item);
+                    // Specify the layout to use when the list of choices appears
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    // Apply the adapter to the spinner
+                    spinner.setAdapter(adapter);
+
+
+                    // Create fragment and give it an argument specifying the article it should show
+                    CheckCodesFragment newFragment = new CheckCodesFragment();
+
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.fragment_container, newFragment);
+
+                    // Commit the transaction
+                    transaction.commit();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
     }
 }

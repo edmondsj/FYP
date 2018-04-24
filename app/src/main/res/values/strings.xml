@@ -40,5 +40,20 @@ You ballot ID is:
     //Check Terms Fragment
     <string name="check_terms_text">In order to complete your vote, please accept the terms displayed on your Personal Computer.</string>
 
+    //Scanner Fragment
+    <string name="manually_enter_QR">Manually Enter</string>
+    <string name="testImageView">Manually Enter</string>
+    <string name="tryAgainQR">Try Again</string>
+    <string name="scannerInstruction">If the aplication is having difficulties scanning the QR, you may try again. Alternativiely, you can manually enter the required values.</string>
 
+    <string-array name="add_num_candidates">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
 </resources>
