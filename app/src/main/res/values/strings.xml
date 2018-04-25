@@ -56,4 +56,12 @@ You ballot ID is:
         <item>7</item>
         <item>8</item>
     </string-array>
+
+
+    <string name="term">You have signed into the UK voting app. Throughout the proccess, please ensure that</string>
+<string name="term1">1) You have casting the vote on your own free will, without manipulation or threats from others.</string>
+<string name="term2">2)Your vote is, to the best of your knowledge, private. There is nobody within your environment that knows your vote.</string>
+    <string name="term3">3) Throughout the voting process, you will not discussed your voting intentions with another person.</string>
+
+
 </resources>

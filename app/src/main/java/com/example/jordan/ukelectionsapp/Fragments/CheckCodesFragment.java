@@ -119,7 +119,7 @@ public class CheckCodesFragment extends Fragment {
                 Log.i("CheckButtonPress", "" + buttonNumber);
                 lastClicked = buttonNumber;
                 ChangeCodeDialog box = new ChangeCodeDialog();
-                box.show(getFragmentManager(), "MyDialogFragment");
+                box.show(getFragmentManager(), "DialogFragment");
             }
         });
 

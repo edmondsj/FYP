@@ -79,7 +79,7 @@ public class FlipFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_flip, container, false);
 
-        btn = (Button) view.findViewById(R.id.scanner_btn);
+        btn = view.findViewById(R.id.scanner_btn);
         btn.setOnClickListener(this);
 
         return view;
@@ -140,7 +140,6 @@ public class FlipFragment extends Fragment implements View.OnClickListener {
                 break;
 
             default:
-                Log.d("hello", "ll");
         }
     }
 

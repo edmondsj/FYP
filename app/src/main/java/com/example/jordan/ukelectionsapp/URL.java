@@ -18,6 +18,5 @@ public class URL {
     public static String CHECKBALLOT = DOMAIN + "check_ballot"; //DisplayFinalCode
     public static String CHECKCANDIDATE = DOMAIN + "check_candidate"; //ConfirmCandidate
     public static String SENDCONTRACT = DOMAIN + "send_contract"; //ConfirmCandidate
-
-
+    public static String CHECKVOTESUBMITTED = DOMAIN + "check_vote_submitted?number="; //ConfirmCandidate, uses GET
 }

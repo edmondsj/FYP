@@ -13,8 +13,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -22,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -54,7 +51,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private Bitmap myBitmap;
+    private Bitmap returnedImage;
     private TextView txtView;
     private ImageView myImageView;
     private Button pictureIntentBTN, manualEnterButton;
@@ -160,7 +157,7 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
             txtView.setText("Could not set up the detector!");
             return;
         }
-        Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
+        Frame frame = new Frame.Builder().setBitmap(returnedImage).build();
 
         SparseArray<Barcode> barcodes = detector.detect(frame);
 
@@ -209,9 +206,9 @@ public class ScannerFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             Bundle extras = data.getExtras();
-            myBitmap = (Bitmap) extras.get("data");
-            myBitmap = myBitmap.copy(Bitmap.Config.ARGB_8888,true);
-            myImageView.setImageBitmap(myBitmap);
+            returnedImage = (Bitmap) extras.get("data");
+            returnedImage = returnedImage.copy(Bitmap.Config.ARGB_8888,true);
+            myImageView.setImageBitmap(returnedImage);
             Log.d("QR Result", "Pre Function Call ");
             scanForQr();
 

@@ -3,12 +3,21 @@ package com.example.jordan.ukelectionsapp.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.jordan.ukelectionsapp.R;
+import com.example.jordan.ukelectionsapp.URL;
+import com.example.jordan.ukelectionsapp.VolleySingleton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +38,10 @@ public class CheckTermsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private String ballot;
+    private Handler handler;
+    private Runnable runnable;
 
     public CheckTermsFragment() {
         // Required empty public constructor
@@ -58,9 +71,21 @@ public class CheckTermsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            ballot = getArguments().getString("ballot");
         }
+
+        handler = new Handler();
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                Log.d("HandlerIteration", "Running" );
+                check();
+                handler.postDelayed(this, 2000);
+            }
+        };
+        handler.postDelayed(runnable, 1500);
     }
 
     @Override
@@ -92,6 +117,53 @@ public class CheckTermsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void check() {
+
+        String url = URL.CHECKVOTESUBMITTED + ballot;
+        Log.d("Ballot_Response", url);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("Ballot_Response", response);
+                        // Display the first 500 characters of the response string.
+                        if (response.equals("1")) {
+
+                            Fragment newFragment = new SuccessFragment();
+                            Bundle args = new Bundle();
+                            newFragment.setArguments(args);
+
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                            // Replace whatever is in the fragment_container view with this fragment,
+                            // and add the transaction to the back stack so the user can navigate back
+                            transaction.replace(R.id.fragment_container, newFragment);
+
+                            // Commit the transaction
+                            transaction.commit();
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("Ballot_Response", error.getStackTrace().toString());
+
+            }
+        });
+
+// Add the request to the RequestQueue.
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+    @Override
+    public void onDestroy() {
+        handler.removeCallbacks(runnable);
+        super.onDestroy();
     }
 
     /**

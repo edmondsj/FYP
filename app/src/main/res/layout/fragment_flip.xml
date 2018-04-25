@@ -3,15 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.jordan.ukelectionsapp.Fragments.FlipFragment"
+    android:gravity="center"
     >
 
-    <!-- TODO: Update blank fragment layout -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/flip_message"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/term"
+        android:layout_weight="1"
         android:background="#f0f0f0"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/term1"
+        android:layout_weight="1"
+        android:background="#f0f0f0"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/term2"
+        android:layout_weight="1"
+        android:background="#f0f0f0"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/term3"
+        android:layout_weight="1"
+        android:background="#f0f0f0"/>
+</LinearLayout>
 
     <Button
         android:id="@+id/scanner_btn"
